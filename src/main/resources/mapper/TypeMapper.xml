@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.francislzf.blog.mapper.TypeMapper">
+    <update id="updateType">
+        update type set name=#{type.name} where id=#{type.id}
+    </update>
+    <update id="decreaseBlogNumsByTypeId">
+        update type t set t.blogs =t.blogs-1 where id=#{typeId} limit 1
+    </update>
+    <update id="increaseBlogNumsByTypeId">
+        update type t set t.blogs=t.blogs+1 where id=#{typeId} limit 1
+    </update>
+    <update id="updateBlogNumsToLatest">
+        UPDATE type t
+        INNER JOIN (
+	      SELECT
+		    type_id,
+		    Count(type_id) AS blogs
+	      FROM
+		    blog
+	    GROUP BY
+		type_id
+      ) b ON t.id = b.type_id
+        SET t.blogs = b.blogs
+    </update>
+
+    <select id="selectTypeByName" resultType="com.francislzf.blog.bean.Type">
+        select * from blog.type where name=#{name} limit 1
+    </select>
+    <select id="getAllType" resultMap="type">
+        select * from type order by blogs desc
+    </select>
+    <select id="selectTypeById" resultType="com.francislzf.blog.bean.Type">
+        select * from type where id=#{id} limit 1
+    </select>
+    <select id="getPreViewType" resultMap="type">
+        select * from type order by blogs desc limit #{typeNums}
+    </select>
+    <select id="getMaxNumsBlogTypeId" resultType="java.lang.Integer">
+        select id from type where blogs in(select max(blogs) from type) limit 1
+    </select>
+    <select id="getTypeNameByTypeId" resultType="java.lang.String">
+        select name from type where id=#{typeId}
+    </select>
+    <delete id="deleteTypeById">
+        delete from type where id=#{id} limit 1
+    </delete>
+    <resultMap id="type" type="com.francislzf.blog.bean.Type">
+
+    </resultMap>
+</mapper>

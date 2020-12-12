@@ -1,0 +1,29 @@
+spring:
+  thymeleaf:
+    mode: HTML
+    cache: false
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/blog?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+    username: root
+    password: i4y64xpk
+  data:
+    elasticsearch:
+      cluster-node: 101.37.91.71:9300
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.francislzf.blog.entity
+logging:
+  level:
+    root: info
+    com.francislzf: debug
+  file:
+    path: log/blog-dev.log
+server:
+  port: 8081
+comment:
+  avatar: /images/avatar.png
+mapper:
+  identity: MYSQL

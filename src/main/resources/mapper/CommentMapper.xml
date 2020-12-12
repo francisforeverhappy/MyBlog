@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.francislzf.blog.mapper.CommentMapper">
+
+    <select id="getCommentsByBlogId" resultMap="comments">
+        select * from comment where blog_id=#{blogId} and parent_comment_id=-1
+    </select>
+    <select id="getReplyCommentsBycommentId" resultMap="comments">
+      SELECT * from comment where blog_id=#{blogId} and parent_comment_id = #{commentId}
+    </select>
+
+<!--    <insert id="saveComment" parameterType="com.francislzf.blog.bean.Comment" useGeneratedKeys="true" keyProperty="id">-->
+<!--      insert into comment () VALUES () admin_comment=#{comment.adminComment},avatar=#{comment.avatar},-->
+<!--      content=#{comment.content},create_time=#{comment.createTime},email=#{comment.email},-->
+<!--      ip=#{comment.ip},nickname=#{comment.nickname},blog_id=#{comment.blogId},-->
+<!--      parent_comment_id=#{comment.parentCommentId}-->
+<!--    </insert>-->
+    <insert id="saveComment" parameterType="com.francislzf.blog.bean.Comment" useGeneratedKeys="true" keyProperty="id">
+      insert into comment (admin_comment, avatar, content, create_time, email, ip, nickname, blog_id, parent_comment_id)
+      VALUES (#{comment.adminComment},#{comment.avatar}, #{comment.content}, #{comment.createTime},#{comment.email},#{comment.ip},#{comment.nickname},#{comment.blogId},#{comment.parentCommentId})
+    </insert>
+
+    <resultMap id="comments" type="com.francislzf.blog.bean.Comment">
+    </resultMap>
+</mapper>
